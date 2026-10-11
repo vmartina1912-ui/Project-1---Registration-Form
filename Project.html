@@ -1,0 +1,193 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Registration Form</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background-color: white;
+            padding: 30px;
+            width: 300px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px gray;
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .error {
+            color: red;
+            font-size: 12px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 20px;
+            background-color: blue;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:disabled {
+            background-color: gray;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h2>Registration Form</h2>
+
+        <form id="registerForm">
+
+            <label>Name</label>
+            <input type="text" id="name" placeholder="Enter your name">
+            <span class="error" id="nameError"></span>
+
+            <label>Email</label>
+            <input type="text" id="email" placeholder="Enter your email">
+            <span class="error" id="emailError"></span>
+
+            <label>Password</label>
+            <input type="password" id="password" placeholder="Enter password">
+            <span class="error" id="passwordError"></span>
+
+            <button type="submit" id="submitBtn" disabled>
+                Register
+            </button>
+
+        </form>
+
+    </div>
+
+    <script>
+
+        // Get HTML elements
+        const name = document.getElementById("name");
+        const email = document.getElementById("email");
+        const password = document.getElementById("password");
+
+        const nameError = document.getElementById("nameError");
+        const emailError = document.getElementById("emailError");
+        const passwordError = document.getElementById("passwordError");
+
+        const submitBtn = document.getElementById("submitBtn");
+        const form = document.getElementById("registerForm");
+
+
+        // Name validation
+        function validateName() {
+
+            if (name.value.trim() === "") {
+                nameError.textContent = "Name is required";
+                return false;
+            } 
+            else {
+                nameError.textContent = "";
+                return true;
+            }
+        }
+
+
+        // Email validation
+        function validateEmail() {
+
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+            if (!emailPattern.test(email.value.trim())) {
+                emailError.textContent = "Enter a valid email address";
+                return false;
+            } 
+            else {
+                emailError.textContent = "";
+                return true;
+            }
+        }
+
+
+        // Password validation
+        function validatePassword() {
+
+            if (password.value.length < 6) {
+                passwordError.textContent = "Password must contain at least 6 characters";
+                return false;
+            } 
+            else {
+                passwordError.textContent = "";
+                return true;
+            }
+        }
+
+
+        // Check all fields
+        function validateForm() {
+
+            const isNameValid = validateName();
+            const isEmailValid = validateEmail();
+            const isPasswordValid = validatePassword();
+
+            submitBtn.disabled = !(
+                isNameValid &&
+                isEmailValid &&
+                isPasswordValid
+            );
+        }
+
+
+        // Real-time validation
+        name.addEventListener("input", validateForm);
+        email.addEventListener("input", validateForm);
+        password.addEventListener("input", validateForm);
+
+
+        // Form submission
+        form.addEventListener("submit", function(event) {
+
+            event.preventDefault();
+
+            validateForm();
+
+            if (!submitBtn.disabled) {
+                alert("Registration Successful!");
+
+                form.reset();
+                submitBtn.disabled = true;
+            }
+
+        });
+
+    </script>
+
+</body>
+</html>
